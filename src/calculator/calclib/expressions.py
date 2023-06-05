@@ -1,8 +1,12 @@
 """!
-@package calculator
-@file expressions.py
-@author Maryia Mazurava
-Implementation of math logic
+    @file expressions.py
+
+    @brief Module for parsing math expressions using precedence
+
+    @author Maryia Mazurava
+
+    @date 26.04.2023
+
 """
 
 from . import advanced, basic, stack
@@ -11,13 +15,11 @@ LEFT_PAR = "("
 RIGHT_PAR = ")"
 
 
-"""!
-Base class "MathParsing"
-@brief Representation of basic math logic
-"""
 class MathParsing:
+    """!
+    @brief Base class "MathParsing", representation of basic math logic
+    """
 
-    """! Constructor """
     def __init__(self):
         self.operators = {'+': 1, '-': 1, '×': 2, '÷': 2, '^': 3}
         self.adv = advanced.Advanced()
@@ -26,11 +28,12 @@ class MathParsing:
         self.operator_stack = stack.Stack()
         self.operand_stack = stack.Stack()
 
-    """!
-    @brief Method for splitting an expression into tokens
-    @param expression Expression string
-    """
     def split_expression(self, expression: str):
+        """!
+            @brief Method for splitting an expression into tokens
+            @param expression Expression string
+        """
+
         number = ""
         for char in expression:
             if char.isnumeric() or char == ".":
@@ -47,12 +50,13 @@ class MathParsing:
         if number != "":
             self.tokens.append(number)
 
-    """!
-    @brief Method for checking if the expression is correct
-    @return True if expression is correct, False instead
-    """
     def check_semantics(self):
-        """ Parentheses balance checking """
+        """!
+            @brief Method for checking if the expression is correct
+            @return True if expression is correct, False instead
+        """
+
+        """! Parentheses balance checking """
         pars = []
         for token in self.tokens:
             if token == LEFT_PAR:
@@ -151,12 +155,13 @@ class MathParsing:
 
         return True
 
-    """!
-    @brief Main method for parsing the expression using stack.py module
-    @param expression Expression string from app.py module
-    @return Result string of the expression or error message
-    """
     def parse(self, expression: str):
+        """!
+            @brief Main method for parsing the expression using stack.py module
+            @param expression Expression string from app.py module
+            @return Result string of the expression or error message
+        """
+
         if len(expression) > 3 and expression[0:3] == "log":
             result, index = self.parse_advanced("log", expression)
             if result == "":
@@ -216,13 +221,14 @@ class MathParsing:
 
         return str(self.operand_stack.top())
 
-    """!
-    @brief Main method for parsing the expression using stack.py module
-    @param func Function name (log or sqrt)
-    @param exspression Expression to evaluate
-    @return Result of the parsing. Result is "" if error occurred
-    """
     def parse_advanced(self, func, expression):
+        """!
+            @brief Main method for parsing the expression using stack.py module
+            @param func Function name (log or sqrt)
+            @param expression Expression to evaluate
+            @return Result of the parsing. Result is "" if error occurred
+        """
+
         if func == "sqrt":
             result = ""
             degree = ""
@@ -308,12 +314,13 @@ class MathParsing:
 
         return str(result), index_end
 
-    """!
-    @brief Method for evaluating factorial
-    @param exspression Expression to evaluate
-    @return Result of the evaluating
-    """
     def parse_factorial(self, expression):
+        """!
+            @brief Method for evaluating factorial
+            @param expression Expression to evaluate
+            @return Result of the evaluating
+        """
+
         expression_evaluate = ""
         for char in expression:
             expression_evaluate += char
@@ -327,13 +334,14 @@ class MathParsing:
 
         return str(result)
 
-    """!
-    @brief Method for evaluating trigonometric functions
-    @param func Trigonometric function
-    @param exspression Expression to evaluate
-    @return Result of the evaluating
-    """
     def parse_trigonometry(self, func, expression):
+        """!
+            @brief Method for evaluating trigonometric functions
+            @param func Trigonometric function
+            @param expression Expression to evaluate
+            @return Result of the evaluating
+        """
+
         expression_evaluate = ""
         for char in expression:
             expression_evaluate += char
@@ -351,14 +359,14 @@ class MathParsing:
 
         return str(result)
 
-
-    """!
-    @brief Method for evaluation of single math expressions using math libraries
-    @param operand1 First operand
-    @param operand2 Second operand
-    @return False if error occurred
-    """
     def evaluate(self, operand1, operand2):
+        """!
+            @brief Method for evaluation of single math expressions using math libraries
+            @param operand1 First operand
+            @param operand2 Second operand
+            @return False if error occurred
+        """
+
         match self.operator_stack.pop():
             case "-":
                 result = self.basic.sub(operand1, operand2)
